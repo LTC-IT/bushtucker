@@ -8,7 +8,7 @@ function createTable($sqlStmt, $tableName)
     global $conn;
     $stmt = $conn->prepare($sqlStmt);
     if ($stmt->execute()) {
-        echo "<p style='color: green'>" . $tableName . ": Table Created Successfully</p>";
+//        echo "<p style='color: green'>" . $tableName . ": Table Created Successfully</p>";
     } else {
         echo "<p style='color: red'>" . $tableName . ": Table Created Failure</p>";
     }
