@@ -1,45 +1,29 @@
 <?php
 session_start();
 
+function createTable($sqlStmt, $tableName) {
+    global $conn;
+    $stmt = $conn->prepare($sqlStmt);
+
+    if ($stmt->execute()){
+        echo "<p style='color: green'>".$tableName." Table Success</p>";
+    }else{
+        echo "<p style='color: red'>".$tableName." Table Failed</p>";
+    }
+}
+
 // Database Configuration
 $conn = new SQLite3('Bushtucker') or die("Unable to open database!");
 
 
 $query = file_get_contents("sql/create-user.sql");
-$stmt = $conn->prepare($query);
-
-if ($stmt->execute()){
-    echo "User Table Success";
-}else{
-    echo "User Table Fail";
-}
-
+createTable($query, "User");
 $query = file_get_contents("sql/create-messaging.sql");
-$stmt = $conn->prepare($query);
-
-if ($stmt->execute()){
-    echo "Messaging Table Success";
-}else{
-    echo "Messaging Table Fail";
-}
-
+createTable($query, "Messaging");
 $query = file_get_contents("sql/create-orderDetails.sql");
-$stmt = $conn->prepare($query);
-
-if ($stmt->execute()){
-    echo "orderDetails Table Success";
-}else{
-    echo "orderDetails Table Fail";
-}
-
+createTable($query, "Order Details");
 $query = file_get_contents("sql/create-products.sql");
-$stmt = $conn->prepare($query);
-
-if ($stmt->execute()){
-    echo "products Table Success";
-}else{
-    echo "products Table Fail";
-}
+createTable($query, "Products");
 
 $query = $conn->query("SELECT COUNT(*) as count FROM `user`");
 $row = $query->fetchArray();
