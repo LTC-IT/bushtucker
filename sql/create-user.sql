@@ -6,5 +6,5 @@ create table IF NOT EXISTS user
     password    TEXT,
     name        TEXT,
     profilePic  TEXT,
-    accessLevel INTEGER
+    accessLevel TEXT
 );
