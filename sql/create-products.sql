@@ -8,5 +8,5 @@ create table IF NOT EXISTS products
     quantity    INTEGER,
     price       REAL,
     image       TEXT,
-    code        VARCHAR(100)
+    code        TEXT
 );
