@@ -41,13 +41,11 @@ if (isset($_POST['action']) && $_POST['action'] == "change") {
         }
     }
 }
- ?>
+?>
 
 <div class="message_box" style="margin:10px 0px;">
     <?php echo $status; ?>
 </div>
-
-
 
 <div class="cart">
     <?php
@@ -70,13 +68,12 @@ if (isset($_POST['action']) && $_POST['action'] == "change") {
                 <td>
                     <img src='images/productImages/<?php echo $product["image"]; ?>' width="50" height="40"/>
                 </td>
-                <td>
-                    <?php echo $product["productName"]; ?> <br>
+                <td><?php echo $product["productName"]; ?> <br>
                     <form method='post' action=''>
-                            <input type='hidden' name='code' value="<?php echo $product["code"]; ?>"/>
-                            <input type='hidden' name='action' value="remove"/>
-                            <button type='submit' class='remove'>Remove Item</button>
-                        </form>
+                    <input type='hidden' name='code' value="<?php echo $product["code"]; ?>"/>
+                    <input type='hidden' name='action' value="remove"/>
+                    <button type='submit' class='remove'>Remove Item</button>
+                    </form>
                 </td>
                 <td>
                     <form method='post' action=''>
