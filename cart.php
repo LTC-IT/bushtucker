@@ -14,6 +14,19 @@
 
 <link rel="stylesheet" href="css/orderForm.css">
 
+<?php
+
+//This code runs when the quantity changes for a row
+if (isset($_POST['action']) && $_POST['action'] == "change") {
+    foreach ($_SESSION["shopping_cart"] as &$value) {
+        if ($value['code'] === $_POST["code"]) {
+            $value['quantity'] = $_POST["quantity"];
+            break; // Stop the loop after we've found the product
+        }
+    }
+}
+ ?>
+
 <div class="cart">
     <?php
     if (isset($_SESSION["shopping_cart"])) {
@@ -74,7 +87,6 @@
             $total_price += ($product["price"] * $product["quantity"]);
         }
         ?>
-
         <tr>
         <td colspan="5" align="right">
         <strong>TOTAL: <?php echo "$". $total_price; ?></strong>
