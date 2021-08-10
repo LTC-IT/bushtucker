@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="css/orderForm.css">
 
 <?php
+if (isset($_SESSION["user_id"])) {
 date_default_timezone_set("Australia/Sydney");
 $status = "";
 if (isset($_POST['action']) && $_POST['action'] == "remove") {
@@ -140,6 +141,8 @@ if (isset($_POST['action']) && $_POST['action'] == "change") {
             }
         $_SESSION["shopping_cart"] = [];
     }
-
+} else {
+    header("Location:index.php");
+}
 
 ?>
