@@ -15,7 +15,8 @@
 <link rel="stylesheet" href="css/orderForm.css">
 
 <?php
-
+date_default_timezone_set("Australia/Sydney");
+$status = "";
 if (isset($_POST['action']) && $_POST['action'] == "remove") {
     if (!empty($_SESSION["shopping_cart"])) {
         foreach ($_SESSION["shopping_cart"] as $key => $value) {
@@ -41,6 +42,12 @@ if (isset($_POST['action']) && $_POST['action'] == "change") {
     }
 }
  ?>
+
+<div class="message_box" style="margin:10px 0px;">
+    <?php echo $status; ?>
+</div>
+
+
 
 <div class="cart">
     <?php
@@ -115,7 +122,27 @@ if (isset($_POST['action']) && $_POST['action'] == "change") {
 </tr>
         </tbody>
     </table>
-
+<form method="post">
+            <input type="submit" name="orderProducts" value="Order Now"/>
+        </form>
     <?php
 }
+
+    if(isset($_POST['orderProducts'])) {
+        // Writing the order to the database
+        $orderNumber = "ORDER" . substr(md5(uniqid(mt_rand(), true)), 0, 8);
+        foreach ($_SESSION["shopping_cart"] as $row) {
+                $customerID = $_SESSION["user_id"];
+                $productCode = $row['code'];
+                $quantity = $row['quantity'];
+                $orderDate = date("Y-m-d h:i:sa");
+
+                // Write to the Db.
+                $conn->exec("INSERT INTO orderDetails (orderCode,customerID, productCode, orderDate, quantity) VALUES('$orderNumber','$customerID','$productCode','$orderDate', '$quantity')");
+
+            }
+        $_SESSION["shopping_cart"] = [];
+    }
+
+
 ?>
