@@ -38,7 +38,10 @@
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="registration.php">Registation</a>
+                    <a class="nav-link" href="registration.php">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="invoice.php">Invoices</a>
                 </li>
             </ul>
         </div>
