@@ -9,6 +9,7 @@
  * 3) Inform users if they have not previously made any orders.
  * 4) Administrators to view all orders.
  * 5) If user is not logged in, then redirect them to index.php
+ * 6) Administrators can OPEN and CLOSE orders
  *
  * "Defines" the conn variable, removing the undefined variable errors.
  * @var SQLite3 $conn
@@ -31,7 +32,7 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
         }
 
         $orderCodesForUser = [];
-        if ($count > 0){  // Has the User made orders previously? Case 1
+        if ($count > 0) {  // Has the User made orders previously? Case 1
             while ($data = $query->fetchArray()) {
                 $orderCode = $data[0];
                 array_push($orderCodesForUser, $orderCode);
@@ -50,6 +51,33 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
     } else { // Case 5
         header("Location:index.php");
     }
+} else { // Case 2 - There is an order code in the URL
+    $order_id = $_GET["order"];
+    echo "<h1 class='text-primary'>Invoice - " . $order_id . "</h1>";
+    $query = $conn->query("SELECT p.productName, p.price, o.quantity, p.price*o.quantity as SubTotal, o.orderDate, o.status FROM orderDetails o INNER JOIN products p on o.productCode = p.code WHERE orderCode='$order_id'");
+
+    $total = 0;
+    echo "<div class='container-fluid'><div class='row'><div class='col text-success'>Product Name</div><div class='col text-success'>Price</div><div class='col text-success'>Quantity</div><div class='col text-success'>Subtotal</div></div>";
+    while ($data = $query->fetchArray()) {
+        echo "<div class='row'>";
+        $productName = $data[0];
+        $price = $data[1];
+        $quantity = $data[2];
+        $subtotal = $data[3];
+        $orderDate = $data[4];
+        $status = $data[5];
+        $total = $total + $subtotal;
+        echo "<div class='col'>" . $productName . "</div>";
+        echo "<div class='col'>$" . $price . "</div>";
+        echo "<div class='col'>" . $quantity . "</div>";
+        echo "<div class='col'>$" . $subtotal . "</div>";
+
+        echo "</div>";
+    }
+
+    echo "<div class='row'><div class='col'></div><div class='col'></div><div class='col display-4'>Total : $" . $total . "</div></div>";
+    echo "<div class='row'><div class='col'></div><div class='col'></div><div class='col'>" . $orderDate . "</div></div>";
+
 }
 
 ?>
