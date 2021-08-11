@@ -20,9 +20,15 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
     echo "<h1 class='text-primary'>Invoices</h1>";
     echo "<h2 class='text-primary'>Choose your invoice number below.</h2>";
     if (isset($_SESSION["user_id"])) { // Case 1 or 3?
-        $userID = $_SESSION["user_id"];
-        $query = $conn->query("SELECT orderCode FROM orderDetails WHERE customerID='$userID' AND status='OPEN'");
-        $count = $conn->querySingle("SELECT orderCode FROM `orderDetails` WHERE customerID='$userID' AND status='OPEN'");
+        if ($_SESSION["level"] == "Administrator") {
+            $query = $conn->query("SELECT orderCode FROM orderDetails");
+            $count = $conn->querySingle("SELECT orderCode FROM `orderDetails`");
+        } else {
+            $userID = $_SESSION["user_id"];
+            $query = $conn->query("SELECT orderCode FROM orderDetails WHERE customerID='$userID' AND status='OPEN'");
+            $count = $conn->querySingle("SELECT orderCode FROM `orderDetails` WHERE customerID='$userID' AND status='OPEN'");
+
+        }
 
         $orderCodesForUser = [];
         if ($count > 0){  // Has the User made orders previously? Case 1
