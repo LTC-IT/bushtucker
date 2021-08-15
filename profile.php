@@ -11,25 +11,28 @@
 <h1 class='text-primary'>Your Profile</h1>
 
 <?php
-$userName = $_SESSION["username"];
-$userId = $_SESSION["user_id"];
+if (isset($_SESSION["username"])) {
+    $userName = $_SESSION["username"];
+    $userId = $_SESSION["user_id"];
 
-$query = $conn->query("SELECT * FROM user WHERE username='$userName'");
-$userData = $query->fetchArray();
-$userName = $userData[1];
-$password = $userData[2];
-$name = $userData[3];
-$profilePic = $userData[4];
-$accessLevel = $userData[5];
-
+    $query = $conn->query("SELECT * FROM user WHERE username='$userName'");
+    $userData = $query->fetchArray();
+    $userName = $userData[1];
+    $password = $userData[2];
+    $name = $userData[3];
+    $profilePic = $userData[4];
+    $accessLevel = $userData[5];
+} else {
+    header("Location:index.php");
+}
 ?>
 
-<div class ="container-fluid">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
-            <h3>Username :  <?php echo $userName; ?></h3>
+            <h3>Username : <?php echo $userName; ?></h3>
             <p>Profile Picture:</p>
-            <?php echo "<img src='images/profilePic/".$profilePic."' width='100' height='100'>"   ?>
+            <?php echo "<img src='images/profilePic/" . $profilePic . "' width='100' height='100'>" ?>
         </div>
         <div class="col-md-6">
             <p> Name : <?php echo $name ?> </p>
