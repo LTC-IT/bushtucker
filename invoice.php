@@ -78,6 +78,17 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
     echo "<div class='row'><div class='col'></div><div class='col'></div><div class='col display-4'>Total : $" . $total . "</div></div>";
     echo "<div class='row'><div class='col'></div><div class='col'></div><div class='col'>" . $orderDate . "</div></div>";
 
+    if ($_SESSION["level"] == "Administrator") {
+
+        if ($status=="OPEN") {
+            echo "STATUS: OPEN";
+            echo "<p><a href='invoice.php?order=".$order_id."&status=CLOSED'>Click here to close</a></p>";
+        } else {
+            echo "STATUS: CLOSED";
+            echo "<p><a href='invoice.php?order=".$order_id."&status=OPEN'>Click here to open</a></p>";
+        }
+    }
+
 }
 
 ?>
