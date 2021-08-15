@@ -37,10 +37,11 @@ if (isset($_SESSION["username"])) {
             <?php echo "<img src='images/profilePic/" . $profilePic . "' width='100' height='100'>" ?>
         </div>
         <div class="col-md-6">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
+                  enctype="multipart/form-data">
                 <p>Name: <input type="text" name="name" value="<?php echo $name ?>"></p>
                 <p>Access Level: <input type="text" name="accessLevel" value="<?php echo $accessLevel ?>"></p>
-                <p>Profile Picture: <input type="file" name ="file"></p>
+                <p>Profile Picture: <input type="file" name="file"></p>
                 <input type="submit" name="formSubmit" value="Submit">
             </form>
         </div>
@@ -48,7 +49,7 @@ if (isset($_SESSION["username"])) {
 </div>
 
 <?php
-if ($_SERVER["REQUEST_METHOD"]== "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newName = sanitise_data($_POST['name']);
     $newAccessLevel = sanitise_data($_POST['accessLevel']);
 
@@ -61,6 +62,50 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
         $sqlStmt->bindValue(":newAccessLevel", $accessLevel);
     }
     $sqlStmt->execute();
+
+    // Update Profile picture
+    $file = $_FILES['file'];
+
+//Variable Names
+    $fileName = $_FILES['file']['name'];
+    $fileTmpName = $_FILES['file']['tmp_name'];
+    $fileSize = $_FILES['file']['size'];
+    $fileError = $_FILES['file']['error'];
+    $fileType = $_FILES['file']['type'];
+
+//defining what type of file is allowed
+// We seperate the file, and obtain the end.
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
+//We ensure the end is allowable in our thing.
+    $allowed = array('jpg', 'jpeg', 'png', 'pdf');
+
+    if (in_array($fileActualExt, $allowed)) {
+        if ($fileError === 0) {
+            //File is smaller than yadda.
+            if ($fileSize < 10000000000) {
+                //file name is now a unique ID based on time with IMG- precedding it, followed by the file type.
+                $fileNameNew = uniqid('IMG-', True) . "." . $fileActualExt;
+                //upload location
+                $fileDestination = 'images/profilePic/' . $fileNameNew;
+                //command to upload.
+                move_uploaded_file($fileTmpName, $fileDestination);
+
+
+                $sql = "UPDATE user SET profilePic=:newFileName WHERE username='$userName'";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':newFileName', $fileNameNew);
+                $stmt->execute();
+                header("location:index.php");
+            } else {
+                echo "Your image is too big!";
+            }
+        } else {
+            echo "there was an error uploading your image!";
+        }
+    } else {
+        echo "You cannot upload files of this type!";
+    }
 }
 
 
