@@ -46,3 +46,22 @@ if (isset($_SESSION["username"])) {
         </div>
     </div>
 </div>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"]== "POST") {
+    $newName = sanitise_data($_POST['name']);
+    $newAccessLevel = sanitise_data($_POST['accessLevel']);
+
+    $sql = "UPDATE user SET name = :newName, accessLevel=:newAccessLevel WHERE username='$userName'";
+    $sqlStmt = $conn->prepare($sql);
+    $sqlStmt->bindValue(":newName", $newName);
+    if ($accessLevel == "Administrator") {
+        $sqlStmt->bindValue(":newAccessLevel", $newAccessLevel);
+    } else {
+        $sqlStmt->bindValue(":newAccessLevel", $accessLevel);
+    }
+    $sqlStmt->execute();
+}
+
+
+?>
