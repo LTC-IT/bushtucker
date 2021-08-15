@@ -22,11 +22,21 @@ $name = $userData[3];
 $profilePic = $userData[4];
 $accessLevel = $userData[5];
 
-echo $userName."<p>";
-echo $password ."<p>";
-echo $name."<p>";
-echo $profilePic."<p>";
-echo $accessLevel."<p>";
-
 ?>
 
+<div class ="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Username :  <?php echo $userName; ?></h3>
+            <p>Profile Picture:</p>
+            <?php echo "<img src='images/profilePic/".$profilePic."' width='100' height='100'>"   ?>
+        </div>
+        <div class="col-md-6">
+            <p> Name : <?php echo $name ?> </p>
+            <p> Access Level : <?php echo $accessLevel ?> </p>
+            <p><a href="edit.php" title="Edit">Edit Profile</a></p>
+        </div>
+
+
+    </div>
+</div>
