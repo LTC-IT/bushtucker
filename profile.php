@@ -62,9 +62,18 @@ $messages = $conn->query("SELECT * FROM messaging WHERE recipient='$userId'");
         $sender = $individual_message[1];
         $message = $individual_message[3];
         $dateSubmitted = $individual_message[4];
+        $senderName = $conn->querySingle("SELECT username FROM user WHERE user_id='$sender'");
         ?>
         <div class="row">
-            <div class="col-md-4"> <?php echo $sender; ?></div>
+            <div class="col-md-4">
+                <?php
+                if (!$senderName) {
+                    echo $sender;
+                } else {
+                    echo $senderName;
+                }
+                ?>
+            </div>
             <div class="col-md-4"> <?php echo $message; ?></div>
             <div class="col-md-4"> <?php echo $dateSubmitted; ?></div>
         </div>
