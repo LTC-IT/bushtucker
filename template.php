@@ -28,6 +28,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact!</a>
                 </li>
+                <?php if (!isset($_SESSION["username"])) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="registration.php">Registration</a>
+                </li>
+                <?php } else { ?>
+
                 <li class="nav-item">
                     <a class="nav-link" href="profile.php">User Profile</a>
                 </li>
@@ -38,11 +44,9 @@
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="registration.php">Registration</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="invoice.php">Invoices</a>
                 </li>
+                <?php } ?>
             </ul>
         </div>
     </div>
