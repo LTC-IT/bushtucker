@@ -41,13 +41,16 @@
                     <a class="nav-link" href="orderForm.php">Order Form</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="invoice.php">Invoices</a>
                 </li>
                 <?php } ?>
             </ul>
+            <?php if (isset($_SESSION["name"])) {
+                echo "<div class='alert alert-success d-flex'><span>Welcome, ".$_SESSION["name"]."<br><a href='logout.php'>Logout</a></span></div>";
+            } else {
+                echo "<div class='alert alert-info d-flex'><a href='index.php'>Sign In</a>";
+            }
+            ?>
         </div>
     </div>
 </nav>
