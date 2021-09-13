@@ -1,5 +1,4 @@
 <?php require_once 'config.php'; ?>
-
 <html>
 <head>
     <!-- Required meta tags -->
@@ -29,24 +28,32 @@
                     <a class="nav-link" href="contact.php">Contact!</a>
                 </li>
                 <?php if (!isset($_SESSION["username"])) { ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="registration.php">Registration</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="registration.php">Registration</a>
+                    </li>
                 <?php } else { ?>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="profile.php">User Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="orderForm.php">Order Form</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="invoice.php">Invoices</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.php">User Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="orderForm.php">Order Form</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="invoice.php">Invoices</a>
+                    </li>
                 <?php } ?>
+                <?php if (isset($_SESSION["level"])) : ?>
+                <?php if ($_SESSION["level"] == "Administrator") : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search-user.php">Search Users</a>
+                    </li>
+                <?php endif; ?>
+                <?php endif; ?>
+
             </ul>
             <?php if (isset($_SESSION["name"])) {
-                echo "<div class='alert alert-success d-flex'><span>Welcome, ".$_SESSION["name"]."<br><a href='logout.php'>Logout</a></span></div>";
+                echo "<div class='alert alert-success d-flex'><span>Welcome, " . $_SESSION["name"] . "<br><a href='logout.php'>Logout</a></span></div>";
             } else {
                 echo "<div class='alert alert-info d-flex'><a href='index.php'>Sign In</a>";
             }
