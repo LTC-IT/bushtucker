@@ -11,20 +11,22 @@
 <h1 class='text-primary'>Edit Your Profile</h1>
 
 <?php
-if (isset($_SESSION["username"])) {
-    $userName = $_SESSION["username"];
-    $userId = $_SESSION["user_id"];
 
-    $query = $conn->query("SELECT * FROM user WHERE username='$userName'");
-    $userData = $query->fetchArray();
-    $userName = $userData[1];
-    $password = $userData[2];
-    $name = $userData[3];
-    $profilePic = $userData[4];
-    $accessLevel = $userData[5];
+if (isset($_GET["user_id"])) {
+    $userToLoad = $_GET["user_id"];
 } else {
-    header("Location:index.php");
+    header("location:index.php");
 }
+
+$query = $conn->query("SELECT * FROM user WHERE user_id='$userToLoad'");
+$userData = $query->fetchArray();
+$user_id = $userData[0];
+$userName = $userData[1];
+$password = $userData[2];
+$name = $userData[3];
+$profilePic = $userData[4];
+$accessLevel = $userData[5];
+
 ?>
 
 <div class="container-fluid">
@@ -37,7 +39,7 @@ if (isset($_SESSION["username"])) {
             <?php echo "<img src='images/profilePic/" . $profilePic . "' width='100' height='100'>" ?>
         </div>
         <div class="col-md-6">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
+            <form action="edit.php?user_id=<?php echo $user_id ?>" method="post"
                   enctype="multipart/form-data">
                 <p>Name: <input type="text" name="name" value="<?php echo $name ?>"></p>
                 <p>Access Level: <input type="text" name="accessLevel" value="<?php echo $accessLevel ?>"></p>

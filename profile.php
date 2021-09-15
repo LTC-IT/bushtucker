@@ -17,6 +17,7 @@ if (isset($_SESSION["username"])) {
 
     $query = $conn->query("SELECT * FROM user WHERE username='$userName'");
     $userData = $query->fetchArray();
+    $user_id = $userData[0];
     $userName = $userData[1];
     $password = $userData[2];
     $name = $userData[3];
@@ -37,7 +38,7 @@ if (isset($_SESSION["username"])) {
         <div class="col-md-6">
             <p> Name : <?php echo $name ?> </p>
             <p> Access Level : <?php echo $accessLevel ?> </p>
-            <p><a href="edit.php" title="Edit">Edit Profile</a></p>
+            <p><a href="edit.php?user_id=<?php echo $user_id ?>" title="Edit">Edit Profile</a></p>
         </div>
 
 
