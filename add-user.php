@@ -25,8 +25,6 @@ $query = $conn->query("SELECT DISTINCT accessLevel FROM user");
                         }
                         ?>
                     </select>
-
-
                 </p>
             </div>
             <div class="col-md-6">
