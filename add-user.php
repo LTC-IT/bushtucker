@@ -2,6 +2,10 @@
 <title>Create New User</title>
 <h1 class='text-primary'>Create New User</h1>
 
+<?php
+$query = $conn->query("SELECT DISTINCT accessLevel FROM user");
+?>
+
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
     <div class="container-fluid">
         <div class="row">
@@ -12,7 +16,18 @@
                 <p>Please enter wanted username and password:</p>
                 <p>User Name<input type="text" name="username" class="form-control" required="required"></p>
                 <p>Password<input type="password" name="password" class="form-control" required="required"></p>
-                <p>Access Level<input type="text" name="accessLevel" class="form-control" required="required"></p>
+                <!--                <p>Access Level<input type="text" name="accessLevel" class="form-control" required="required"></p>-->
+                <p>Access Level
+                    <select name="accessLevel">
+                        <?php
+                        while ($row = $query->fetchArray()) {
+                            echo '<option>'.$row[0].'</option>';
+                        }
+                        ?>
+                    </select>
+
+
+                </p>
             </div>
             <div class="col-md-6">
                 <h2>More Details</h2>
