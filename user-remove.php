@@ -1,8 +1,7 @@
 <?php include "template.php";
 /**
- *  This is the user's profile page.
- * It shows the Users details including picture, and a link to edit the details.
- *
+ *  This the page to remove a given user from the database.
+ * This should be for admins only.
  * @var SQLite3 $conn
  */
 ?>
@@ -13,7 +12,7 @@
 <?php
 // check first to confirm user is an administrator..
 
-if (isset($_GET["user_id"])) {
+if (isset($_GET["user_id"])) {  // Has the user_id been set in the url parameter.
     // delete user from database
     $userToDelete = $_GET["user_id"];
 //    echo "<p>".$userToDelete."</p>";
@@ -22,7 +21,7 @@ if (isset($_GET["user_id"])) {
     $sqlstmt->execute();
     echo "<p>User ".$userToDelete." has been deleted from the database";
 
-} else {
+} else { // No user_id has been set
     echo "No User to Delete";
 }
 ?>
